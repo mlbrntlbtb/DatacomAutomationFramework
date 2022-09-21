@@ -5,7 +5,7 @@
 		<listener class-name="Listeners.TestNGISuiteListener"/>
 		<listener class-name="Listeners.TestNGITestListener"/>
 	</listeners>
-	<test name = "Test_Chrome">
+	<!--test name = "Test_Chrome">
 		<parameter name="browserName" value="Chrome"/>
 		<classes>
 			<class name = "TestCases.TC1_NavigationPayeesPage"/>
@@ -15,7 +15,7 @@
 			<class name = "TestCases.TC5_TransferPaymentsEverydayToBills"/>
 		</classes>
 	</test>
-	<!--test name = "Test_Firefox">
+	<test name = "Test_Firefox">
 		<parameter name="browserName" value="Firefox"/>
 		<classes>
 			<class name = "TestCases.TC1_NavigationPayeesPage"/>
@@ -34,7 +34,7 @@
 			<class name = "TestCases.TC4_VerifySortOrderPayeeName"/>
 			<class name = "TestCases.TC5_TransferPaymentsEverydayToBills"/>
 		</classes>
-	</test>
+	</test!-->
 	<test name = "Test_Remote-Chrome">
 		<parameter name="browserName" value="Remote-Chrome"/>
 		<classes>
@@ -64,5 +64,5 @@
 			<class name = "TestCases.TC4_VerifySortOrderPayeeName"/>
 			<class name = "TestCases.TC5_TransferPaymentsEverydayToBills"/>
 		</classes>
-	</test!-->
+	</test>
 </suite>
