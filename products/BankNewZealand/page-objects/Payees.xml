@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page name="Payees">
+	<element name = "Back">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//button[contains(@class,'PageBackButton')]</searchvalue>
+	</element>
+	<element name = "Title">
+		<type>Label</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//span[contains(@class,'Language__container')]</searchvalue>
+	</element>
+	<element name = "SearchPayees">
+		<type>TextBox</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//input[contains(@class,'SearchInput')]</searchvalue>
+	</element>
+	<element name = "Add">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//button[contains(@class,'js-add-payee')]</searchvalue>
+	</element>
+	<element name = "List_Payees">
+		<type>List</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//ul[contains(@class,'List--border')]</searchvalue>
+	</element>
+	<element name = "Sort_Name">
+		<type>Sort</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//h3[contains(@class,'payee-name')]//*[contains(@class,'IconChevron')]</searchvalue>
+	</element>
+	<element name = "Sort_LastPaid">
+		<type>Sort</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//h3[contains(@class,'payee-last-paid')]//*[contains(@class,'IconChevron')]</searchvalue>
+	</element>
+</page>

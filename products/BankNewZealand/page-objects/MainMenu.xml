@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page name="MainMenu">
+	<element name = "Close">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//button[contains(@class,'MainMenu-close')]</searchvalue>
+	</element>
+	<element name = "List_Menu">
+		<type>List</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//ul[contains(@class,'MainMenu-navList')]</searchvalue>
+	</element>
+	<element name = "Contact">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//a[contains(@class,'menu-secure-messages')]</searchvalue>
+	</element>
+	<element name = "Settings">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//a[contains(@class,'menu-settings')]</searchvalue>
+	</element>
+	<element name = "Logout">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//a[contains(@class,'menu-logout')]</searchvalue>
+	</element>
+</page>

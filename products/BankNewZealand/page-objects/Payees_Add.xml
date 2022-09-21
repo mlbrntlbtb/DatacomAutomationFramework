@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page name="Payees_Add">
+	<element name = "PayeeName">
+		<type>ComboBox</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//div[contains(@class,'payee-selector')]//div[contains(@class,'combobox')]</searchvalue>
+	</element>
+	<element name = "PayeeCreditCard_1st_Field">
+		<type>TextBox</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//input[@id='apm-that-particulars']</searchvalue>
+	</element>
+	<element name = "PayeeCreditCard_2nd_Field">
+		<type>TextBox</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//input[@id='apm-that-code']</searchvalue>
+	</element>
+	<element name = "AccountField_1st_Bank">
+		<type>TextBox</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//input[@id='apm-bank']</searchvalue>
+	</element>
+	<element name = "AccountField_2nd_Branch">
+		<type>TextBox</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//input[@id='apm-branch']</searchvalue>
+	</element>
+	<element name = "AccountField_3rd_Account">
+		<type>TextBox</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//input[@id='apm-account']</searchvalue>
+	</element>
+	<element name = "AccountField_4th_Suffix">
+		<type>TextBox</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//input[@id='apm-suffix']</searchvalue>
+	</element>
+	<element name = "ToolTip">
+		<type>ToolTip</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//div[contains(@class,'tooltip-view')]</searchvalue>
+	</element>
+	<element name = "ErrorHeader">
+		<type>Label</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//div[@class='error-box']</searchvalue>
+	</element>
+	<element name = "Cancel">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//button[contains(@class,'js-cancel')]</searchvalue>
+	</element>
+	<element name = "Add">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//button[contains(@class,'js-submit')]</searchvalue>
+	</element>
+</page>

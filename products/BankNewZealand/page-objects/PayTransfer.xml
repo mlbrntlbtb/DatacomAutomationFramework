@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page name="PayTransfer">
+	<element name = "FromAccount">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//button[@data-testid='from-account-chooser']</searchvalue>
+	</element>
+	<element name = "ToAccount">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//button[@data-testid='to-account-chooser']</searchvalue>
+	</element>
+	<element name = "Amount">
+		<type>TextBox</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//input[@name='amount']</searchvalue>
+	</element>
+	<element name = "Transfer">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//button[@data-monitoring-label='Transfer Form Submit']</searchvalue>
+	</element>
+	<element name = "TransferMakeAnother">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//button[@data-monitoring-label='Transfer Form Submit And Make Another']</searchvalue>
+	</element>
+	<element name = "Cancel">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//button[@data-monitoring-label='Transfer Form Cancel']</searchvalue>
+	</element>
+</page>

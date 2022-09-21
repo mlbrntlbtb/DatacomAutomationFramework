@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page name="Home">
+	<element name = "Menu">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//button[contains(@class,'MenuButton')]</searchvalue>
+	</element>
+	<element name = "AccountDetails">
+		<type>Thumbnail</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//div[@data-testid='account-details-wrapper']</searchvalue>
+	</element>
+</page>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page name="PayTransfer_To">
+	<element name = "Title">
+		<type>Label</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//span[contains(@class,'Language__container')]</searchvalue>
+	</element>
+	<element name = "Close">
+		<type>Button</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//button[contains(@class,'closeButton')]</searchvalue>
+	</element>
+	<element name = "Search">
+		<type>TextBox</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//input[@data-monitoring-label='Transfer Form Search']</searchvalue>
+	</element>
+	<element name = "TabList">
+		<type>Tab</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//div[@class='react-tabs']</searchvalue>
+	</element>
+	<element name = "List_To">
+		<type>List</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//ul[contains(@class,'list')]</searchvalue>
+	</element>
+</page>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page name="Alert">
+	<element name = "Alert">
+		<type>Alert</type>
+		<searchby>XPATH</searchby>
+		<searchvalue>//span[@role='alert']</searchvalue>
+	</element>
+</page>
