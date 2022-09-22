@@ -10,8 +10,6 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.Reporter;
 
-import Records.ConfigRecord;
-
 public class ScreenshotHandler 
 {
 	public static void takeScreenshot(WebDriver driver) throws Exception
@@ -19,7 +17,7 @@ public class ScreenshotHandler
 		if(driver != null) 
 		{
 			File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-			String filePath = new File(ConfigRecord.screenShotPath, "EXCPTNIMG_" + (new SimpleDateFormat("yyyyMMddHHmmss")).format(new Date()).toString() + ".png").getPath();
+			String filePath = new File(ConfigHandler.screenShotPath, "EXCPTNIMG_" + (new SimpleDateFormat("yyyyMMddHHmmss")).format(new Date()).toString() + ".png").getPath();
 			File path = new File(filePath);
 			FileUtils.copyFile(screenshot, path);
 			LogHandler.info("See screenshot details here: [" + path + "]");

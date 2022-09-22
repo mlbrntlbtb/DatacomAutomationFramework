@@ -5,10 +5,7 @@ import java.io.File;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import com.aventstack.extentreports.markuputils.Markup;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
-
-import Records.ConfigRecord;
 
 public class ExtentReportHandler 
 {
@@ -18,7 +15,7 @@ public class ExtentReportHandler
 	
 	public static void createExtentReport(String suiteName) 
 	{
-		extentSparkReporter = new ExtentSparkReporter(new File(ConfigRecord.extentOutputPath, "extent-reports.html").getPath());
+		extentSparkReporter = new ExtentSparkReporter(new File(ConfigHandler.extentOutputPath, "extent-reports.html").getPath());
 		extentReports = new ExtentReports();
 		extentReports.attachReporter(extentSparkReporter);
 		extentSparkReporter.config().setDocumentTitle("Automation Framework Report");

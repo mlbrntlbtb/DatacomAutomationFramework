@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name = "TS_API_VerifyUsers">
+	<listeners>
+		<listener class-name="Listeners.TestNGISuiteListener"/>
+		<listener class-name="Listeners.TestNGITestListener"/>
+	</listeners>
+	<test name = "TS_API_VerifyUsers">
+		<classes>
+			<class name = "TestCases.APITestCases.TC1_GetRequestVerifyUsers">
+				<parameter name="statusCode" value="200"/>
+				<parameter name="statusLine" value="OK"/>
+				<parameter name="baseResource" value="id"/>
+			</class>
+			<class name = "TestCases.APITestCases.TC2_GetRequestVerifyUserByID">
+				<parameter name="queryParam" value="/?id=8"/>
+				<parameter name="statusCode" value="200"/>
+				<parameter name="statusLine" value="OK"/>
+				<parameter name="baseResource" value="name"/>
+				<parameter name="baseValue" value="Nicholas Runolfsdottir V"/>
+			</class>
+			<class name = "TestCases.APITestCases.TC3_PostRequestCreateMessage">
+				<parameter name="statusCode" value="201"/>
+				<parameter name="statusLine" value="CREATED"/>
+			</class>
+		</classes>
+	</test>
+</suite>

@@ -3,8 +3,8 @@ package Listeners;
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
 
-import Records.ConfigRecord;
 import System.*;
+import Utilities.ConfigHandler;
 import Utilities.LogHandler;
 
 public class TestNGISuiteListener implements ISuiteListener
@@ -14,7 +14,7 @@ public class TestNGISuiteListener implements ISuiteListener
 	{
         try 
         {
-        	ConfigRecord.suiteName = suite.getName();
+        	ConfigHandler.suiteName = suite.getName();
 			LogHandler.startSuite(suite.getName());
 		} 
         catch (Exception e) 

@@ -1,4 +1,4 @@
-package Records;
+package Utilities;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,10 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
-import Utilities.ExceptionHandler;
-
-
-public class ConfigRecord 
+public class ConfigHandler 
 {
 	public static String suiteName;
 	public static String keepBrowserOpen;
@@ -19,10 +16,9 @@ public class ConfigRecord
 	public static String systemLogsPath;
 	public static String productsPath;
 	public static String targetProductPath;
-	public static String testScriptsPath;
-	public static String testSuitesPath;
 	public static String testResultsPath;
 	public static String pageObjectsPath;
+	public static String userTestDataPath;
 	public static String testOutputPath;
 	public static String screenShotPath;
     public static String logPath;
@@ -36,22 +32,24 @@ public class ConfigRecord
 		configPath = new File(projectPath, "config").getPath();
 		systemLogsPath = new File(projectPath, "system-logs").getPath();
     	productsPath = new File(projectPath, "products").getPath();
-    	targetProductPath = new File(productsPath, GetProperty("product.name")).getPath();
+    	targetProductPath = new File(productsPath, GetProperty("config","product.name")).getPath();
     	testResultsPath = new File(targetProductPath, "test-results").getPath();
     	pageObjectsPath = new File(targetProductPath, "page-objects").getPath();
+    	userTestDataPath = new File(targetProductPath, "user-test-data").getPath();
     	testOutputPath = new File(projectPath, "test-output").getPath();
     	extentOutputPath = new File(testOutputPath, "extentreports").getPath();
 	}
 	
-	public static synchronized String GetProperty(String propertyName) throws Exception 
+	public static synchronized String GetProperty(String fileName, String propertyName) throws Exception 
 	{
 		String propValue = "";
 		try 
 		{
 			Properties prop = new Properties();
-			InputStream config = new FileInputStream(new File(configPath, "config.properties").getPath());
-			prop.load(config);
+			InputStream input = new FileInputStream(new File(configPath, fileName + ".properties").getPath());
+			prop.load(input);
 			propValue = prop.getProperty(propertyName);
+			input.close();
 		}
 		catch(Exception e) 
 		{
@@ -60,14 +58,17 @@ public class ConfigRecord
 		return propValue;
 	}
 	
-	public static synchronized void SetProperty(String propertyName, String propertyValue) throws Exception 
+	public static synchronized void SetProperty(String fileName, String propertyName, String propertyValue) throws Exception 
 	{
 		try 
-		{
+		{	
+			String filePath = new File(configPath, fileName + ".properties").getPath();	
 			Properties prop = new Properties();
-			OutputStream config = new FileOutputStream(new File(configPath, "config.properties").getPath());
-			prop.setProperty(propertyName, propertyName);
-			prop.store(config,null);
+			InputStream input = new FileInputStream(filePath);
+			prop.load(input);
+			prop.setProperty(propertyName, propertyValue);
+			OutputStream output = new FileOutputStream(filePath);
+			prop.store(output, null);
 		}
 		catch(Exception e) 
 		{
@@ -75,14 +76,15 @@ public class ConfigRecord
 		}
 	}
 	
-	public static synchronized void RemoveProperty(String propertyName, String propertyValue) throws Exception 
+	public static synchronized void RemoveProperty(String fileName, String propertyName, String propertyValue) throws Exception 
 	{
 		try 
 		{
 			Properties prop = new Properties();
-			InputStream config = new FileInputStream(new File(configPath, "config.properties").getPath());
-			prop.load(config);
-			prop.remove(propertyName, propertyName);
+			InputStream input = new FileInputStream(new File(configPath, fileName + ".properties").getPath());
+			prop.load(input);
+			prop.remove(propertyName, propertyValue);
+			input.close();
 		}
 		catch(Exception e) 
 		{

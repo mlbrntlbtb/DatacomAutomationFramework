@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name = "TS_CRUD_API_Operations">
+	<listeners>
+		<listener class-name="Listeners.TestNGISuiteListener"/>
+		<listener class-name="Listeners.TestNGITestListener"/>
+	</listeners>
+	<test name = "Test_CRUD_API">
+		<classes>
+			<class name = "TestCases.APITestCases.CRUD.TC1_PostRequest"/>
+			<class name = "TestCases.APITestCases.CRUD.TC2_GetRequest"/>
+			<class name = "TestCases.APITestCases.CRUD.TC3_PutRequest"/>
+			<class name = "TestCases.APITestCases.CRUD.TC4_DeleteRequest"/>
+		</classes>
+	</test>
+</suite>

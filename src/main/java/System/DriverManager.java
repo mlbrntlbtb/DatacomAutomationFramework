@@ -10,7 +10,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import Records.ConfigRecord;
+import Utilities.ConfigHandler;
 import Utilities.ExceptionHandler;
 import Utilities.LogHandler;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -23,7 +23,7 @@ public class DriverManager
 		try 
 		{
 			LogHandler.info("Creating browser instance: [" + browserName + "]");
-			String remoteHost = ConfigRecord.GetProperty("remote.host");
+			String remoteHost = ConfigHandler.GetProperty("config","remote.host");
 			
 			switch(browserName.toLowerCase()) 
 			{
@@ -79,6 +79,7 @@ public class DriverManager
 			driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
 			driver.manage().window().maximize();
 			driver.navigate().to(url);
+			driver.get(url);
 			WaitApplicationReady(driver);
 		}
 	}

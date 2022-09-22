@@ -7,8 +7,6 @@ import java.util.Date;
 import org.apache.log4j.*;
 import org.testng.Reporter;
 
-import Records.ConfigRecord;
-
 public class LogHandler 
 {
 	private static Logger log;
@@ -21,7 +19,7 @@ public class LogHandler
 	{
 		if(!initFlag) 
 		{
-			ConfigRecord.Initialize();
+			ConfigHandler.Initialize();
 			
 			//Configuration for Log4j
 			log = Logger.getLogger(LogHandler.class);
@@ -32,15 +30,15 @@ public class LogHandler
 			appender.setMaxBackupIndex(1);
 			
 			String folderDateTimeName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()).toString();
-			String updatedTestFolderPath = new File(ConfigRecord.systemLogsPath, folderDateTimeName).getPath();
+			String updatedTestFolderPath = new File(ConfigHandler.systemLogsPath, folderDateTimeName).getPath();
 			
-			if(ConfigRecord.suiteName == null) //Check if suite has been initialized as argument
-				updatedTestFolderPath = new File(ConfigRecord.systemLogsPath, folderDateTimeName).getPath();
+			if(ConfigHandler.suiteName == null) //Check if suite has been initialized as argument
+				updatedTestFolderPath = new File(ConfigHandler.systemLogsPath, folderDateTimeName).getPath();
 			else 
-				updatedTestFolderPath = new File(ConfigRecord.testResultsPath + "\\" + ConfigRecord.suiteName, folderDateTimeName).getPath();
+				updatedTestFolderPath = new File(ConfigHandler.testResultsPath + "\\" + ConfigHandler.suiteName, folderDateTimeName).getPath();
 			
-			ConfigRecord.screenShotPath = updatedTestFolderPath;
-			ConfigRecord.currentTestResultsPath = updatedTestFolderPath;
+			ConfigHandler.screenShotPath = updatedTestFolderPath;
+			ConfigHandler.currentTestResultsPath = updatedTestFolderPath;
 			
 			appender.setFile(new File(updatedTestFolderPath, "LOG_" + folderDateTimeName + ".log").getPath());
 			appender.activateOptions();

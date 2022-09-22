@@ -67,7 +67,7 @@ public class ExceptionHandler
 			 break;
 		}
 		
-		LogHandler.error("See error details:[" + ExceptionUtils.getMessage(exception) +"]");
-		//LogHandler.error("See error details:[" + ExceptionUtils.getStackTrace(exception) +"]");
+		//LogHandler.error("See error details: [" + ExceptionUtils.getMessage(exception) +"]");
+		LogHandler.error("See error details: [" + ExceptionUtils.getStackTrace(exception) +"]");
 	}
 }

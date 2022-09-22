@@ -4,9 +4,7 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import System.DriverManager;
 import Utilities.LogHandler;
-import Utilities.ScreenshotHandler;
 
 public class TestNGITestListener implements ITestListener
 {

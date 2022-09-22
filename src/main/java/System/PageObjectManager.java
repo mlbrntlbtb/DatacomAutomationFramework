@@ -11,7 +11,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import Records.ConfigRecord;
+import Utilities.ConfigHandler;
 import Utilities.ExceptionHandler;
 import Utilities.LogHandler;
 
@@ -23,7 +23,7 @@ public class PageObjectManager
 		try 
 		{
 			//Get target file from object repository
-			String pagePath = new File(ConfigRecord.pageObjectsPath, pageName + ".xml").getPath();
+			String pagePath = new File(ConfigHandler.pageObjectsPath, pageName + ".xml").getPath();
 			File file = new File(pagePath);
 			
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();

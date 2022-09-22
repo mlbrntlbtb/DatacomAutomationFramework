@@ -34,52 +34,52 @@ public class KeywordManager
 			{
 			case "button":
 				button = new BaseButton(driver, elementName, ElementRecord.get("SearchBy"), ElementRecord.get("SearchValue"));
-				ExecuteKeyword(button, parameters, keyword);
+				ExecuteKeyword(button, keyword, parameters);
 				break;
 			
 			case "textbox":
 				textbox = new BaseTextBox(driver, elementName, ElementRecord.get("SearchBy"), ElementRecord.get("SearchValue"));
-				ExecuteKeyword(textbox, parameters, keyword);
+				ExecuteKeyword(textbox, keyword, parameters);
 				break;
 				
 			case "label":
 				label = new BaseLabel(driver, elementName, ElementRecord.get("SearchBy"), ElementRecord.get("SearchValue"));
-				ExecuteKeyword(label, parameters, keyword);
+				ExecuteKeyword(label, keyword, parameters);
 				break;
 				
 			case "list":
 				list = new BaseList(driver, elementName, ElementRecord.get("SearchBy"), ElementRecord.get("SearchValue"));
-				ExecuteKeyword(list, parameters, keyword);
+				ExecuteKeyword(list, keyword, parameters);
 				break;
 				
 			case "combobox":
 				combobox = new BaseComboBox(driver, elementName, ElementRecord.get("SearchBy"), ElementRecord.get("SearchValue"));
-				ExecuteKeyword(combobox, parameters, keyword);
+				ExecuteKeyword(combobox, keyword, parameters);
 				break;
 				
 			case "alert":
 				alert = new BaseAlert(driver, elementName, ElementRecord.get("SearchBy"), ElementRecord.get("SearchValue"));
-				ExecuteKeyword(alert, parameters, keyword);
+				ExecuteKeyword(alert, keyword, parameters);
 				break;
 				
 			case "tooltip":
 				tooltip = new BaseToolTip(driver, elementName, ElementRecord.get("SearchBy"), ElementRecord.get("SearchValue"));
-				ExecuteKeyword(tooltip, parameters, keyword);
+				ExecuteKeyword(tooltip, keyword, parameters);
 				break;
 				
 			case "sort":
 				sort = new BaseSort(driver, elementName, ElementRecord.get("SearchBy"), ElementRecord.get("SearchValue"));
-				ExecuteKeyword(sort, parameters, keyword);
+				ExecuteKeyword(sort, keyword, parameters);
 				break;
 
 			case "tab":
 				tab = new BaseTab(driver, elementName, ElementRecord.get("SearchBy"), ElementRecord.get("SearchValue"));
-				ExecuteKeyword(tab, parameters, keyword);
+				ExecuteKeyword(tab, keyword, parameters);
 				break;
 				
 			case "thumbnail":
 				thumbnail = new BaseThumbnail(driver, elementName, ElementRecord.get("SearchBy"), ElementRecord.get("SearchValue"));
-				ExecuteKeyword(thumbnail, parameters, keyword);
+				ExecuteKeyword(thumbnail, keyword, parameters);
 				break;
 			
 			default:
@@ -92,7 +92,7 @@ public class KeywordManager
 		}
 	}
 	
-	public static void ExecuteKeyword(Object object, String[] parameters, String keyword) throws Exception 
+	public static void ExecuteKeyword(Object object, String keyword, String[] parameters) throws Exception 
 	{
 		Method[] methods = object.getClass().getDeclaredMethods();
 		
