@@ -151,7 +151,14 @@
     	<version>1.18.24</version>
     	<scope>provided</scope>
 	</dependency>
-
+	
+	<dependency>
+	    <groupId>io.rest-assured</groupId>
+	    <artifactId>rest-assured</artifactId>
+	    <version>5.1.1</version>
+	    <scope>compile</scope>
+	</dependency>
+	
   </dependencies>
 
   <build>
@@ -176,7 +183,8 @@
           <version>2.22.1</version>
            <configuration>
           	<suiteXmlFiles>
-          		<suiteXmlFile>src\test\java\TestSuites\TS_PayeesPaymentWorkflow.xml</suiteXmlFile>
+          		<suiteXmlFile>src\test\java\TestSuites\WebTestSuites\TS_PayeesPaymentWorkflow.xml</suiteXmlFile>
+          		<suiteXmlFile>src\test\java\TestSuites\APITestSuites\TS_API_VerifyUsers.xml</suiteXmlFile>
           	</suiteXmlFiles>
           </configuration>
         </plugin>
