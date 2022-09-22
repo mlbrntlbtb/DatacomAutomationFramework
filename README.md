@@ -3,7 +3,7 @@ Automation Framework for Datacom -- Information Technology Company
 
 Developer: Melbourne Talibutab
 
-Technologies used: Selenium, RestAssured, TestNG
+Technologies used: Maven, Selenium, RestAssured, TestNG
 
 Key-Features:
 1. Web Testing and REST API Testing capabilities  
