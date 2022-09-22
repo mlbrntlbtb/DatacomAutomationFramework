@@ -1,7 +1,7 @@
 # DatacomAutomationFramework
 Automation Framework for Datacom -- Information Technology Company
-Developer: Melbourne Talibutab
 
+Developer: Melbourne Talibutab
 Technologies used: Selenium, RestAssured, TestNG
 
 Key-Features:
