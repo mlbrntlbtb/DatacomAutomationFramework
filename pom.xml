@@ -183,8 +183,8 @@
           <version>2.22.1</version>
            <configuration>
           	<suiteXmlFiles>
-          		<suiteXmlFile>src\test\java\TestSuites\WebTestSuites\TS_PayeesPaymentWorkflow.xml</suiteXmlFile>
           		<suiteXmlFile>src\test\java\TestSuites\APITestSuites\TS_API_VerifyUsers.xml</suiteXmlFile>
+          		<suiteXmlFile>src\test\java\TestSuites\WebTestSuites\TS_PayeesPaymentWorkflow.xml</suiteXmlFile>
           	</suiteXmlFiles>
           </configuration>
         </plugin>

@@ -132,8 +132,6 @@ public class KeywordManager
 		
 		if(!keywordFound)
 			throw new Exception("Unsupported Keyword: [" + keyword + "] not found.");
-		
-		Thread.sleep(1000); //Added 1 second delay for demo purposes
 	}
 	
 	private static String[] SubstituteVariables(String[] params) throws Exception 
