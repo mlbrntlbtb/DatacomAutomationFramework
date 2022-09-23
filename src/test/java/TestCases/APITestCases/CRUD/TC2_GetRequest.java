@@ -17,9 +17,9 @@ public class TC2_GetRequest
 	public void beforeClass() throws Exception 
 	{
 		RequestSpecificationManager.CreateRequest();
-		TestDataHandler.SetFile("TestData.xlsx", "Body");
+		TestDataHandler.SetFile("API_Request_TestData.xlsx", "Body");
 		body = TestDataHandler.GetData();
-		TestDataHandler.SetFile("TestData.xlsx", "Header");
+		TestDataHandler.SetFile("API_Request_TestData.xlsx", "Header");
 		header = TestDataHandler.GetData();
 		baseResource = "/" + ConfigHandler.GetProperty("global","id");
 	} 	

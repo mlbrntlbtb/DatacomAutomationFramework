@@ -1,4 +1,4 @@
-package System;
+package Utilities;
 
 import java.io.File;
 
@@ -8,7 +8,7 @@ import Utilities.ConfigHandler;
 import Utilities.ExceptionHandler;
 import Utilities.LogHandler;
 
-public class TestResultsManager 
+public class TestResultsHandler 
 {
 	public static void getTestResults() throws Exception 
 	{

@@ -8,17 +8,24 @@ import Utilities.*;
 public class TC1_NavigationPayeesPage 
 {
   WebDriver driver;
+  String BrowserName;
   
-  @Parameters({"browserName"})
+  @Parameters({"browserName","fileName","fileSheet"})
   @BeforeClass
-  public void beforeClass(String browserName) throws Exception 
+  public void beforeClass(String browserName, String fileName, String fileSheet) throws Exception 
   {
-	  driver = DriverManager.Initialize(browserName);
+	  BrowserName = browserName;
+	  DataProviderHandler.SetFile(fileName, fileSheet);
+  }
+  
+  @BeforeMethod
+  public void beforeMethod() throws Exception 
+  {
+	  driver = DriverManager.Initialize(BrowserName);
 	  DriverManager.LoadApplication(driver, ConfigHandler.GetProperty("config","test.env"));
   }
 	
-  @Parameters({"menu"})
-  @Test
+  @Test(dataProvider="dataProvider", dataProviderClass=DataProviderHandler.class)
   public void test(String menu) throws Exception 
   {
 	  KeywordManager.Execute(driver, 1, "Click main menu", "Home", "Menu", "Click", null);
@@ -26,8 +33,8 @@ public class TC1_NavigationPayeesPage
 	  KeywordManager.Execute(driver, 3, "Verify Payees page has loaded", "Payees", "Title", "VerifyExist", new String[]{"True"});
   }
   
-  @AfterClass
-  public void afterClass() throws Exception 
+  @AfterMethod
+  public void afterMethod() throws Exception 
   {
 	  DriverManager.Quit(driver);
   }

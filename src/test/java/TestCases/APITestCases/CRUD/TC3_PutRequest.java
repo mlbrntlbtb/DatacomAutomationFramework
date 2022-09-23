@@ -17,9 +17,9 @@ public class TC3_PutRequest
 	public void beforeClass() throws Exception 
 	{
 		RequestSpecificationManager.CreateRequest();
-		TestDataHandler.SetFile("TestData.xlsx", "UpdateBody");
+		TestDataHandler.SetFile("API_Request_TestData.xlsx", "UpdateBody");
 		body = TestDataHandler.GetData();
-		TestDataHandler.SetFile("TestData.xlsx", "Header");
+		TestDataHandler.SetFile("API_Request_TestData.xlsx", "Header");
 		header = TestDataHandler.GetData();
 		baseResource = "/" + ConfigHandler.GetProperty("global","id");
 	} 	

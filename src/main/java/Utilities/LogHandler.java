@@ -145,7 +145,6 @@ public class LogHandler
 		log.info("****************************************************************************************");
 		log.info("****************************************************************************************");
 		Reporter.log(dateTime + " [LOGS][INFO]: " + endMessage);
-		ExtentReportHandler.createExtentTest(testName);
 		ExtentReportHandler.createExtentInfo(endMessage);
 	}
 	
@@ -162,14 +161,18 @@ public class LogHandler
 		ExtentReportHandler.createExtentInfo(statusMessage);
 	}
 	
-	public synchronized static void executeStep(int stepIndex, String description) throws Exception 
+	public synchronized static void executeStep(int stepIndex, String description, String keyword) throws Exception 
 	{
 		initialize();
 		String stepMessage = "Test step: [" + stepIndex + "] - [" + description + "] has started... ";
+		String keywordMessage = "Executing keyword: [" + keyword + "]... ";
 		log.info("****************************************************************************************");
 		log.info(stepMessage);
 		log.info("****************************************************************************************");
+		log.info(keywordMessage);
 		Reporter.log(dateTime + " [LOGS][INFO]: " + stepMessage);
+		Reporter.log(dateTime + " [LOGS][INFO]: " + keywordMessage);
 		ExtentReportHandler.createExtentInfo(stepMessage);
+		ExtentReportHandler.createExtentInfo(keywordMessage);
 	}
 }

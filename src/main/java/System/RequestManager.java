@@ -12,7 +12,7 @@ public class RequestManager
 	{
 		try 
 		{
-			LogHandler.executeStep(stepIndex, description);
+			LogHandler.executeStep(stepIndex, description, keyword);
 			BaseRequest request;
 			BaseResponse response;
 			

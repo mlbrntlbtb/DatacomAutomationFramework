@@ -2,10 +2,7 @@ package Listeners;
 
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
-
-import System.*;
-import Utilities.ConfigHandler;
-import Utilities.LogHandler;
+import Utilities.*;
 
 public class TestNGISuiteListener implements ISuiteListener
 {
@@ -29,7 +26,7 @@ public class TestNGISuiteListener implements ISuiteListener
     	try 
         {
 			LogHandler.endSuite(suite.getName());
-			TestResultsManager.getTestResults();
+			TestResultsHandler.getTestResults();
 		} 
         catch (Exception e) 
         {

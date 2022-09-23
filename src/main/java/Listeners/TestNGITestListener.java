@@ -15,6 +15,7 @@ public class TestNGITestListener implements ITestListener
 		try 
 		{
 			LogHandler.statusTest("Passed");
+			LogHandler.endTest(result.getTestClass().getRealClass().getSimpleName());
 		} 
 		catch (Exception e) 
 		{
@@ -27,6 +28,7 @@ public class TestNGITestListener implements ITestListener
 		try 
 		{
 			LogHandler.statusTest("Failed");
+			LogHandler.endTest(result.getTestClass().getRealClass().getSimpleName());
 		} 
 		catch (Exception e) 
 		{
@@ -39,6 +41,7 @@ public class TestNGITestListener implements ITestListener
 		try 
 		{
 			LogHandler.statusTest("Skipped");
+			LogHandler.endTest(result.getTestClass().getRealClass().getSimpleName());
 		} 
 		catch (Exception e) 
 		{
@@ -53,21 +56,14 @@ public class TestNGITestListener implements ITestListener
 
 	public void onFinish(ITestContext context) 
 	{
-		try 
-		{
-			LogHandler.endTest(context.getName());
-		} 
-		catch (Exception e) 
-		{
-			//
-		}
+		
 	}
 	
 	public void onTestStart(ITestResult result) 
 	{
 		try 
 		{
-			LogHandler.startTest(result.getTestClass().getRealClass().getName());
+			LogHandler.startTest(result.getTestClass().getRealClass().getSimpleName());
 		}
 		catch (Exception e) 
 		{

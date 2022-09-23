@@ -76,6 +76,29 @@ public class TestDataHandler
 		}
 	}
 	
+	public static Object[][] GetDataProvider()
+	{
+		//Subtract '1' to row size to exclude count for column header
+		//Start with '1' in for loop to start with first row and not column header row
+		//Subtract '1' in object list row to avoid null rows
+		if(worksheet != null) 
+		{
+			Object[][] list = new Object[getRowSize()-1][getColumnSize()];
+			for(int r=1; r < getRowSize(); r++) 
+			{
+				for(int c=0; c < getColumnSize(); c++) 
+				{
+					String value = worksheet.getRow(r).getCell(c) == null ? null : //Check if cell is null
+						new DataFormatter().formatCellValue(worksheet.getRow(r).getCell(c)); //Format cell value to string
+				
+					list[r-1][c] = value;
+				}
+			}
+			return list;
+		}
+		return null;
+	}
+	
 	//Private methods
 	private static int getRowSize() 
 	{

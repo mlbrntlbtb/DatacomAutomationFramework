@@ -104,7 +104,7 @@ public class DriverManager
 	{
 		if (driver != null) 
 		{
-			LogHandler.info("Closing browser session... ");
+			LogHandler.info("Closing browser... ");
 			driver.close();
 		}
 	}

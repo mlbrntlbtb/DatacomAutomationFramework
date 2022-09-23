@@ -18,7 +18,6 @@ public class ExtentReportHandler
 		extentSparkReporter = new ExtentSparkReporter(new File(ConfigHandler.extentOutputPath, "extent-reports.html").getPath());
 		extentReports = new ExtentReports();
 		extentReports.attachReporter(extentSparkReporter);
-		extentSparkReporter.config().setDocumentTitle("Automation Framework Report");
 		extentSparkReporter.config().setReportName(suiteName);
 	}
 	

@@ -16,7 +16,7 @@ public class KeywordManager
 	{
 		try 
 		{
-			LogHandler.executeStep(stepIndex, description);
+			LogHandler.executeStep(stepIndex, description, keyword);
 			HashMap<String,String> ElementRecord = PageObjectManager.GetElementRecord(pageName, elementName);
 			BaseButton button;
 			BaseTextBox textbox;

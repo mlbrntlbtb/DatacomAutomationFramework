@@ -18,7 +18,7 @@ public class TC4_DeleteRequest
 	public void beforeClass() throws Exception 
 	{
 		RequestSpecificationManager.CreateRequest();
-		TestDataHandler.SetFile("TestData.xlsx", "Header");
+		TestDataHandler.SetFile("API_Request_TestData.xlsx", "Header");
 		header = TestDataHandler.GetData();
 		baseResource = "/" + ConfigHandler.GetProperty("global","id");
 	} 	

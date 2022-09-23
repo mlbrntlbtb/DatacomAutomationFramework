@@ -3,6 +3,8 @@ package Utilities;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.openqa.selenium.WebDriver;
 
+import System.DriverManager;
+
 public class ExceptionHandler 
 {	
 	public ExceptionHandler(String exName, Exception ex) throws Exception 
@@ -15,6 +17,7 @@ public class ExceptionHandler
 	{
 		Handle(ex, exName);
 		ScreenshotHandler.takeScreenshot(driver);
+		DriverManager.Quit(driver);
 		throw ex;
 	}
 	
@@ -60,6 +63,10 @@ public class ExceptionHandler
 		
 		 case "WebDriverException":
 			 LogHandler.error("[" + exceptionName + "]: Web driver is not available or has been terminated.");
+			 break;
+			 
+		 case "InvocationException":
+			 LogHandler.error("[" + exceptionName + "]: Keyword has incorrect value or number of parameters.");
 			 break;
 			 
 		 default:
