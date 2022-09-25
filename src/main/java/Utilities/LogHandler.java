@@ -5,7 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.log4j.*;
+import org.testng.ITestResult;
 import org.testng.Reporter;
+
+import System.DriverManager;
+import System.RequestSpecificationManager;
 
 public class LogHandler 
 {
@@ -15,7 +19,7 @@ public class LogHandler
 	private static String dateTime = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()).toString();
 	private static boolean initFlag = false;
 	
-	private synchronized static void initialize() throws Exception 
+	private static void initialize() throws Exception 
 	{
 		if(!initFlag) 
 		{
@@ -60,15 +64,15 @@ public class LogHandler
 		}
 	}
 	
-	public synchronized static void info (String message) throws Exception 
+	public static void info (String message) throws Exception 
 	{
 		initialize();
 		log.info(message);
 		Reporter.log(dateTime + " [LOGS][INFO]: " + message);
-		ExtentReportHandler.createExtentInfo(message);
+		ExtentReportHandler.createExtentInfo(message.replace("\n","<br>"));
 	}
 	
-	public synchronized static void error (String message) throws Exception 
+	public static void error (String message) throws Exception 
 	{
 		initialize();
 		log.error(message);
@@ -76,28 +80,7 @@ public class LogHandler
 		ExtentReportHandler.createExtentError(message);
 	}
 	
-	public synchronized static void warn (String message) throws Exception 
-	{
-		initialize();
-		log.warn(message);
-		Reporter.log(dateTime + " [LOGS][WARN]: " + message);
-	}
-	
-	public synchronized static void fatal (String message) throws Exception 
-	{
-		initialize();
-		log.fatal(message);
-		Reporter.log(dateTime + " [LOGS][FATAL]: " + message);
-	}
-	
-	public synchronized static void debug (String message) throws Exception 
-	{
-		initialize();
-		log.debug(message);
-		Reporter.log(dateTime + " [LOGS][DEBUG]: " + message);
-	}
-	
-	public synchronized static void close() 
+	public static void close() 
 	{
 		log.removeAllAppenders();
 		appender.close();
@@ -105,7 +88,7 @@ public class LogHandler
 		initFlag = false;
 	}
 	
-	public synchronized static void startSuite (String message) throws Exception 
+	public static void startSuite (String message) throws Exception 
 	{
 		initialize();
 		log.info("****************************************************************************************");
@@ -115,7 +98,7 @@ public class LogHandler
 		ExtentReportHandler.createExtentReport(message);
 	}
 	
-	public synchronized static void endSuite (String message) throws Exception 
+	public static void endSuite (String message) throws Exception 
 	{
 		initialize();
 		log.info("Test suite: [" + message + "] has ended.");
@@ -125,7 +108,7 @@ public class LogHandler
 		ExtentReportHandler.flushExtentReport();
 	}
 	
-	public synchronized static void startTest (String testName) throws Exception 
+	public static void startTest (String testName) throws Exception 
 	{
 		initialize();
 		String startMessage = "Test: [" + testName + "] has started... ";
@@ -135,9 +118,16 @@ public class LogHandler
 		Reporter.log(dateTime + " [LOGS][INFO]: " + startMessage);
 		ExtentReportHandler.createExtentTest(testName);
 		ExtentReportHandler.createExtentInfo(startMessage);
+		
+		//Include for Web tests
+		startBrowser();
+		startURL();
+		
+		//Include for API tests
+		startRequest();
 	}
 	
-	public synchronized static void endTest (String testName) throws Exception 
+	public static void endTest (String testName) throws Exception 
 	{
 		initialize();
 		String endMessage = "Test: [" + testName + "] has ended... ";
@@ -146,26 +136,40 @@ public class LogHandler
 		log.info("****************************************************************************************");
 		Reporter.log(dateTime + " [LOGS][INFO]: " + endMessage);
 		ExtentReportHandler.createExtentInfo(endMessage);
+		
+		//Include for Web tests
+		endBrowser();
 	}
 	
-	public synchronized static void statusTest (String status) throws Exception 
+	public static void statusTest (String testName, String status) throws Exception 
 	{
 		initialize();
-		String statusMessage = "Test status: [" + status + "]";
+		String statusMessage = "Test: [" + testName + "] Status: [" + status + "]";
 		log.info("****************************************************************************************");
 		log.info(statusMessage);
 		log.info("****************************************************************************************");
 		log.info("****************************************************************************************");
 		Reporter.log(dateTime + " [LOGS][INFO]: " + statusMessage);
-		ExtentReportHandler.createExtentTestStatus(status, "passed");
-		ExtentReportHandler.createExtentInfo(statusMessage);
+		ExtentReportHandler.createExtentTestStatus(status, statusMessage);
 	}
 	
-	public synchronized static void executeStep(int stepIndex, String description, String keyword) throws Exception 
+	public static void executeStep(int stepIndex, String description, String keyword, String[] parameters) throws Exception 
 	{
 		initialize();
 		String stepMessage = "Test step: [" + stepIndex + "] - [" + description + "] has started... ";
-		String keywordMessage = "Executing keyword: [" + keyword + "]... ";
+		String keywordMessage;
+		if(parameters != null) 
+		{
+			String paramMessage = null;
+			for(String param : parameters) 
+			{
+				paramMessage = paramMessage != null ? paramMessage + " | [" + param + "]" : "[" + param + "]";
+			}
+			keywordMessage = "Executing keyword: [" + keyword + "] with parameters: " + paramMessage + "... ";
+		}
+		else
+			keywordMessage = "Executing keyword: [" + keyword + "]... ";
+		
 		log.info("****************************************************************************************");
 		log.info(stepMessage);
 		log.info("****************************************************************************************");
@@ -174,5 +178,75 @@ public class LogHandler
 		Reporter.log(dateTime + " [LOGS][INFO]: " + keywordMessage);
 		ExtentReportHandler.createExtentInfo(stepMessage);
 		ExtentReportHandler.createExtentInfo(keywordMessage);
+	}
+	
+	public static void executeStep(int stepIndex, String description, String keyword) throws Exception 
+	{
+		initialize();
+		String stepMessage = "Test step: [" + stepIndex + "] - [" + description + "] has started... ";
+		String keywordMessage = "Executing keyword: [" + keyword + "]... ";
+		
+		log.info("****************************************************************************************");
+		log.info(stepMessage);
+		log.info("****************************************************************************************");
+		log.info(keywordMessage);
+		Reporter.log(dateTime + " [LOGS][INFO]: " + stepMessage);
+		Reporter.log(dateTime + " [LOGS][INFO]: " + keywordMessage);
+		ExtentReportHandler.createExtentInfo(stepMessage);
+		ExtentReportHandler.createExtentInfo(keywordMessage);
+	}
+	
+	public static void startBrowser() throws Exception 
+	{
+		if(DriverManager.DriverExist()) 
+		{
+			initialize();
+			String browserName = DriverManager.BrowserName();
+			String browserVersion = DriverManager.BrowserVersion();
+			String startMessage = "Browser: [" + browserName + "] Version: [" + browserVersion + "] detected.";
+			log.info(startMessage);
+			Reporter.log(dateTime + " [LOGS][INFO]: " + startMessage);
+			ExtentReportHandler.createExtentInfo(startMessage);	
+		}
+	}
+	
+	public static void startURL() throws Exception 
+	{
+		if(DriverManager.DriverExist()) 
+		{
+			initialize();
+			String applicationURL = DriverManager.ApplicationUrl();
+			String startMessage = "Application URL: [" + applicationURL + "] loaded.";
+			log.info(startMessage);
+			Reporter.log(dateTime + " [LOGS][INFO]: " + startMessage);
+			ExtentReportHandler.createExtentInfo(startMessage);	
+		}
+	}
+	
+	public static void endBrowser() throws Exception 
+	{
+		if(DriverManager.DriverExist()) 
+		{
+			initialize();
+			String browserName = DriverManager.BrowserName();
+			String browserVersion = DriverManager.BrowserVersion();
+			String startMessage = "Browser: [" + browserName + "] Version: [" + browserVersion + "] terminated.";
+			log.info(startMessage);
+			Reporter.log(dateTime + " [LOGS][INFO]: " + startMessage);
+			ExtentReportHandler.createExtentInfo(startMessage);	
+		}
+	}
+	
+	public static void startRequest() throws Exception 
+	{
+		if(RequestSpecificationManager.RequestExist()) 
+		{
+			initialize();
+			String baseUrl = RequestSpecificationManager.GetBaseURL();
+			String startMessage = "Request with Base URL: [" + baseUrl + "] detected.";
+			log.info(startMessage);
+			Reporter.log(dateTime + " [LOGS][INFO]: " + startMessage);
+			ExtentReportHandler.createExtentInfo(startMessage);	
+		}
 	}
 }

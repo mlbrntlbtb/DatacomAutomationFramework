@@ -1,19 +1,13 @@
 package TestCases.APITestCases;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import System.RequestManager;
-import System.RequestSpecificationManager;
 
-public class TC3_PostRequestCreateMessage 
+import BaseTest.BaseAPITest;
+import System.RequestManager;
+
+public class TC3_PostRequestCreateMessage extends BaseAPITest
 {
-	@BeforeClass
-	public void beforeClass() throws Exception 
-	{
-		RequestSpecificationManager.CreateRequest();
-	} 	
-	
 	@Parameters({"statusCode", "statusLine"})
 	@Test
 	public void test(String statusCode, String statusLine) throws Exception 

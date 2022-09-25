@@ -2,17 +2,11 @@ package TestCases.APITestCases;
 
 import org.testng.annotations.*;
 
+import BaseTest.BaseAPITest;
 import System.RequestManager;
-import System.RequestSpecificationManager;
 
-public class TC2_GetRequestVerifyUserByID 
-{
-	@BeforeClass
-	public void beforeClass() throws Exception 
-	{
-		RequestSpecificationManager.CreateRequest();
-	} 	
-	
+public class TC2_GetRequestVerifyUserByID extends BaseAPITest
+{	
 	@Parameters({"queryParam", "statusCode", "statusLine", "baseResource", "baseValue"})
 	@Test
 	public void test(String queryParam, String statusCode, String statusLine, String baseResource, String baseValue) throws Exception 

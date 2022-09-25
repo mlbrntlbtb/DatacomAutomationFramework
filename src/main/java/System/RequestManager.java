@@ -30,9 +30,12 @@ public class RequestManager
 			}
 			else
 				throw new Exception("Type: [" + type + "] not supported.");
+			
+			LogHandler.info("Keyword: [" + keyword + "] passed.");
 		}
 		catch(Exception e) 
 		{
+			LogHandler.error("Keyword [" + keyword + "] failed.");
 			new ExceptionHandler(e.getClass().getSimpleName(), e);
 		}
 	}

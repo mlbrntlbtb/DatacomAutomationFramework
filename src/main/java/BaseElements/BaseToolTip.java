@@ -10,9 +10,9 @@ import Utilities.LogHandler;
 public class BaseToolTip extends BaseElement
 {
 	//Constructors
-	public BaseToolTip(WebDriver driver, String elementName, String searchBy, String searchValue) 
+	public BaseToolTip(String elementName, String searchBy, String searchValue) 
 	{
-		super(driver, elementName, searchBy, searchValue);
+		super(elementName, searchBy, searchValue);
 	}
 	
 	public BaseToolTip(String elementName, WebElement existingElement)
@@ -45,18 +45,8 @@ public class BaseToolTip extends BaseElement
 	//Keywords
 	public void VerifyExistWithText(String expectedValue, String textValue, String waitTime) throws Exception 
 	{
-		try 
-		{
-			Initialize();
-			LogHandler.info("Verifying tooltip with text value: [" + textValue + "]... ");
-			boolean isExistWithText = ElementTextExist(textValue, Integer.parseInt(waitTime));
-			Assert.assertEquals(isExistWithText, Boolean.parseBoolean(expectedValue));
-			LogHandler.info("VerifyExistWithText() passed.");
-		}
-		catch(Exception e) 
-		{
-			LogHandler.error("VerifyExistWithText() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
-		}
+		LogHandler.info("Verifying tooltip with text value: [" + textValue + "]... ");
+		boolean isExistWithText = ElementTextExist(textValue, Integer.parseInt(waitTime));
+		Assert.assertEquals(isExistWithText, Boolean.parseBoolean(expectedValue));
 	}
 }

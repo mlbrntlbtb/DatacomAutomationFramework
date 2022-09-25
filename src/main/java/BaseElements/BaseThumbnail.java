@@ -19,9 +19,9 @@ public class BaseThumbnail extends BaseElement
 	private String thumbnailItemsBalance_XPath = ".//span[@class='account-balance']";
 	
 	//Constructors
-	public BaseThumbnail(WebDriver driver, String elementName, String searchBy, String searchValue) 
+	public BaseThumbnail(String elementName, String searchBy, String searchValue) 
 	{
-		super(driver, elementName, searchBy, searchValue);
+		super(elementName, searchBy, searchValue);
 	}
 	
 	public BaseThumbnail(String elementName, WebElement existingElement)
@@ -93,75 +93,54 @@ public class BaseThumbnail extends BaseElement
 	//Keywords
 	public void GetThumbnailBalance(String title, String variableName) throws Exception 
 	{
-		try 
+		Initialize();
+		LogHandler.info("Getting thumbnail balance from title: [" + title + "]... ");
+		List<WebElement> thumbnailItems = GetThumbnailItems();
+		boolean tFound = false;
+		for(WebElement thumbnail : thumbnailItems) 
 		{
-			Initialize();
+			String thumbnailTitle = thumbnail.findElement(By.xpath(thumbnailItemsTitle_XPath)).getText().trim();
 			
-			LogHandler.info("Getting thumbnail balance from title: [" + title + "]... ");
-			List<WebElement> thumbnailItems = GetThumbnailItems();
-			boolean tFound = false;
-			for(WebElement thumbnail : thumbnailItems) 
+			if(thumbnailTitle.equalsIgnoreCase(title))
 			{
-				String thumbnailTitle = thumbnail.findElement(By.xpath(thumbnailItemsTitle_XPath)).getText().trim();
-				
-				if(thumbnailTitle.equalsIgnoreCase(title))
-				{
-					String thumbnailBalance = thumbnail.findElement(By.xpath(thumbnailItemsBalance_XPath)).getText().trim();
-					LogHandler.info("Assigned value: [" + thumbnailBalance + "] to Variable name: [" + variableName + "]");
-					VariableHandler.SetVariable(variableName, thumbnailBalance);
-					tFound = true;
-					break;
-				}
+				String thumbnailBalance = thumbnail.findElement(By.xpath(thumbnailItemsBalance_XPath)).getText().trim();
+				LogHandler.info("Assigned value: [" + thumbnailBalance + "] to Variable name: [" + variableName + "]");
+				VariableHandler.SetVariable(variableName, thumbnailBalance);
+				tFound = true;
+				break;
 			}
-			if(!tFound)
-				throw new Exception("Thumbnail item with title: [" + title + "] not found on the list.");
-			
-			LogHandler.info("GetThumbnailBalance() passed.");
 		}
-		catch(Exception e) 
-		{
-			LogHandler.error("GetThumbnailBalance() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
-		}
+		if(!tFound)
+			throw new Exception("Thumbnail item with title: [" + title + "] not found on the list.");
 	}
 	
 	public void VerifyThumbnailBalance(String title, String previousValue, String operation, String inputValue) throws Exception 
 	{
-		try 
+		Initialize();
+		LogHandler.info("Getting thumbnail balance from title: [" + title + "]... ");
+		LogHandler.info("Computing thumbnail balance from previous value: [" + 	previousValue + "] [" + operation + "] [" + inputValue + "]");
+		
+		List<WebElement> thumbnailItems = GetThumbnailItems();
+		boolean tFound = false;
+		Double actualValue = null;
+		Double expectedValue = performMathOperation(operation,previousValue,inputValue);
+		for(WebElement thumbnail : thumbnailItems) 
 		{
-			Initialize();
+			String thumbnailTitle = thumbnail.findElement(By.xpath(thumbnailItemsTitle_XPath)).getText().trim();
+			String thumbnailBalance = thumbnail.findElement(By.xpath(thumbnailItemsBalance_XPath)).getText().trim();
 			
-			LogHandler.info("Getting thumbnail balance from title: [" + title + "]... ");
-			LogHandler.info("Computing thumbnail balance from previous value: [" + 	previousValue + "] [" + operation + "] [" + inputValue + "]");
-			
-			List<WebElement> thumbnailItems = GetThumbnailItems();
-			boolean tFound = false;
-			Double actualValue = null;
-			Double expectedValue = performMathOperation(operation,previousValue,inputValue);
-			for(WebElement thumbnail : thumbnailItems) 
+			if(thumbnailTitle.equalsIgnoreCase(title))
 			{
-				String thumbnailTitle = thumbnail.findElement(By.xpath(thumbnailItemsTitle_XPath)).getText().trim();
-				String thumbnailBalance = thumbnail.findElement(By.xpath(thumbnailItemsBalance_XPath)).getText().trim();
+				actualValue = Double.parseDouble(thumbnailBalance.replaceAll(",",""));
 				
-				if(thumbnailTitle.equalsIgnoreCase(title))
-				{
-					actualValue = Double.parseDouble(thumbnailBalance.replaceAll(",",""));
-					
-					LogHandler.info("Expected value: [" + expectedValue + "] Actual value: [" + actualValue + "]");
-					tFound = true;
-					break;
-				}
+				LogHandler.info("Expected value: [" + expectedValue + "] Actual value: [" + actualValue + "]");
+				tFound = true;
+				break;
 			}
-			if(!tFound)
-				throw new Exception("Thumbnail item with title: [" + title + "] not found on the list.");
-			
-			Assert.assertEquals(actualValue, expectedValue);
-			LogHandler.info("GetThumbnailBalance() passed.");
 		}
-		catch(Exception e) 
-		{
-			LogHandler.error("GetThumbnailBalance() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
-		}
+		if(!tFound)
+			throw new Exception("Thumbnail item with title: [" + title + "] not found on the list.");
+		
+		Assert.assertEquals(actualValue, expectedValue);
 	}		
 }

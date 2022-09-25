@@ -16,8 +16,8 @@ public class ExceptionHandler
 	public ExceptionHandler(String exName, Exception ex, WebDriver driver) throws Exception 
 	{
 		Handle(ex, exName);
-		ScreenshotHandler.takeScreenshot(driver);
-		DriverManager.Quit(driver);
+		ScreenshotHandler.takeScreenshot(exName, driver);
+		DriverManager.Quit();
 		throw ex;
 	}
 	
@@ -65,7 +65,7 @@ public class ExceptionHandler
 			 LogHandler.error("[" + exceptionName + "]: Web driver is not available or has been terminated.");
 			 break;
 			 
-		 case "InvocationException":
+		 case "InvocationTargetException":
 			 LogHandler.error("[" + exceptionName + "]: Keyword has incorrect value or number of parameters.");
 			 break;
 			 
@@ -74,7 +74,7 @@ public class ExceptionHandler
 			 break;
 		}
 		
-		//LogHandler.error("See error details: [" + ExceptionUtils.getMessage(exception) +"]");
-		LogHandler.error("See error details: [" + ExceptionUtils.getStackTrace(exception) +"]");
+		//LogHandler.error("See error details: [" + ExceptionUtils.getMessage(exception.getCause()) +"]");
+		LogHandler.error("See error details: [" + ExceptionUtils.getStackTrace(exception.getCause()) +"]");
 	}
 }

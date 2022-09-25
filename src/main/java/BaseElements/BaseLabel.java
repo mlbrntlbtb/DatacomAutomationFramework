@@ -6,9 +6,9 @@ import org.openqa.selenium.WebElement;
 public class BaseLabel extends BaseElement
 {
 	//Constructors
-	public BaseLabel(WebDriver driver, String elementName, String searchBy, String searchValue) 
+	public BaseLabel(String elementName, String searchBy, String searchValue) 
 	{
-		super(driver, elementName, searchBy, searchValue);
+		super(elementName, searchBy, searchValue);
 	}
 		
 	public BaseLabel(String elementName, WebElement existingElement)

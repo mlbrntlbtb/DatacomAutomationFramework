@@ -14,9 +14,9 @@ public class BaseSort extends BaseElement
 	private String descendingValue = "IconChevronUpSolid";
 	
 	//Constructors
-	public BaseSort(WebDriver driver, String elementName, String searchBy, String searchValue) 
+	public BaseSort(String elementName, String searchBy, String searchValue) 
 	{
-		super(driver, elementName, searchBy, searchValue);
+		super(elementName, searchBy, searchValue);
 	}
 	
 	public BaseSort(String elementName, WebElement existingElement)
@@ -49,52 +49,33 @@ public class BaseSort extends BaseElement
 	//Keywords
 	public void VerifySortType(String expectedValue) throws Exception 
 	{
-		try 
+		if(!expectedValue.equals("ascending") && !expectedValue.equals("descending")) 
+			throw new Exception("Invalid expected value. Select expected sort values: [ascending, descending]");
+			
+		Initialize();
+		
+		String getSortType = Element.getAttribute("class").toLowerCase().trim();
+		String actualSortValue;
+		
+		if(getSortType.contains(ascendingValue.toLowerCase())) 
 		{
-			if(!expectedValue.equals("ascending") && !expectedValue.equals("descending")) 
-				throw new Exception("Invalid expected value. Select expected sort values: [ascending, descending]");
-				
-			Initialize();
-			
-			String getSortType = Element.getAttribute("class").toLowerCase().trim();
-			String actualSortValue;
-			
-			if(getSortType.contains(ascendingValue.toLowerCase())) 
-			{
-				actualSortValue = "ascending";
-			}
-			else if(getSortType.contains(descendingValue.toLowerCase()))
-			{
-				actualSortValue = "descending";
-			}
-			else
-				throw new Exception("Element does not support sorting values");
-			
-			LogHandler.info("Expected value: [" + expectedValue + "] Actual value: [" + actualSortValue + "]");
-			Assert.assertEquals(expectedValue, actualSortValue);
-			LogHandler.info("VerifySortType() passed.");
+			actualSortValue = "ascending";
 		}
-		catch(Exception e) 
+		else if(getSortType.contains(descendingValue.toLowerCase()))
 		{
-			LogHandler.error("VerifySortType() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
+			actualSortValue = "descending";
 		}
+		else
+			throw new Exception("Element does not support sorting values");
+		
+		LogHandler.info("Expected value: [" + expectedValue + "] Actual value: [" + actualSortValue + "]");
+		Assert.assertEquals(expectedValue, actualSortValue);
 	}
 	
 	public void Click() throws Exception 
 	{
-		try 
-		{
-			Initialize();
-			
-			LogHandler.info("Clicking element: [" + ElementName + "]... ");
-			Element.click();
-			LogHandler.info("Click() passed.");
-		}
-		catch(Exception e) 
-		{
-			LogHandler.error("Click() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
-		}
+		Initialize();
+		LogHandler.info("Clicking element: [" + ElementName + "]... ");
+		Element.click();
 	}	
 }

@@ -8,9 +8,9 @@ import Utilities.LogHandler;
 public class BaseButton extends BaseElement
 {
 	//Constructors
-	public BaseButton(WebDriver driver, String elementName, String searchBy, String searchValue) 
+	public BaseButton(String elementName, String searchBy, String searchValue) 
 	{
-		super(driver, elementName, searchBy, searchValue);
+		super(elementName, searchBy, searchValue);
 	}
 	
 	public BaseButton(String elementName, WebElement existingElement)
@@ -48,18 +48,8 @@ public class BaseButton extends BaseElement
 	//Keywords
 	public void Click() throws Exception 
 	{
-		try 
-		{
-			Initialize();
-			
-			LogHandler.info("Clicking element: [" + ElementName + "]... ");
-			Element.click();
-			LogHandler.info("Click() passed.");
-		}
-		catch(Exception e) 
-		{
-			LogHandler.error("Click() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
-		}
+		Initialize();
+		LogHandler.info("Clicking element: [" + ElementName + "]... ");
+		Element.click();
 	}
 }

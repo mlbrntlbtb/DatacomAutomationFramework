@@ -9,9 +9,9 @@ import Utilities.LogHandler;
 public class BaseTextBox extends BaseElement
 {
 	//Constructors
-	public BaseTextBox(WebDriver driver, String elementName, String searchBy, String searchValue) 
+	public BaseTextBox(String elementName, String searchBy, String searchValue) 
 	{
-		super(driver, elementName, searchBy, searchValue);
+		super(elementName, searchBy, searchValue);
 	}
 	
 	public BaseTextBox(String elementName, WebElement existingElement) 
@@ -44,20 +44,9 @@ public class BaseTextBox extends BaseElement
 	//Keywords
 	public void SetValue(String value) throws Exception 
 	{
-		try 
-		{
-			Initialize();
-			
-			LogHandler.info("Setting value: [" + value + "] on element: [" + ElementName + "]... ");
-			Element.clear();
-			Element.sendKeys(value);
-			LogHandler.info("SetValue() passed.");
-			
-		}
-		catch(Exception e) 
-		{
-			LogHandler.error("SetValue() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
-		}
+		Initialize();
+		LogHandler.info("Setting value: [" + value + "] on element: [" + ElementName + "]... ");
+		Element.clear();
+		Element.sendKeys(value);
 	}
 }

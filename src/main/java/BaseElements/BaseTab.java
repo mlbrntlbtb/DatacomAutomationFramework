@@ -6,6 +6,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import System.DriverManager;
 import Utilities.ExceptionHandler;
 import Utilities.LogHandler;
 
@@ -14,9 +15,9 @@ public class BaseTab extends BaseElement
 	//Private Variables
 	private String tabItems_XPath = ".//li[@role='tab']";
 	//Constructors
-	public BaseTab(WebDriver driver, String elementName, String searchBy, String searchValue) 
+	public BaseTab(String elementName, String searchBy, String searchValue) 
 	{
-		super(driver, elementName, searchBy, searchValue);
+		super(elementName, searchBy, searchValue);
 	}
 	
 	public BaseTab(String elementName, WebElement existingElement)
@@ -57,36 +58,26 @@ public class BaseTab extends BaseElement
 	//Keywords
 	public void SelectTabItem(String itemValue) throws Exception 
 	{
-		try 
+		Initialize();
+		List<WebElement> listItems = GetTabItems();
+		
+		LogHandler.info("Finding tab item: [" + itemValue + "]... ");
+		boolean itemExist = false;
+		for(WebElement listItem: listItems) 
 		{
-			Initialize();
-			List<WebElement> listItems = GetTabItems();
-			
-			LogHandler.info("Finding tab item: [" + itemValue + "]... ");
-			boolean itemExist = false;
-			for(WebElement listItem: listItems) 
+			String listItemValue = new BaseElement("Tab item", listItem).GetValue();
+			if(listItemValue.equalsIgnoreCase(itemValue)) 
 			{
-				String listItemValue = new BaseElement("Tab item", listItem).GetValue();
-				if(listItemValue.equalsIgnoreCase(itemValue)) 
-				{
-					//listItem.click(); //Other elements receives the click -- try JS
-					JavascriptExecutor js = (JavascriptExecutor)driver;
-					js.executeScript("arguments[0].click()", listItem);
-					itemExist = true;
-					LogHandler.info("Tab item: [" + itemValue + "] found. Selecting... ");
-					break;
-				}
+				//listItem.click(); //Other elements receives the click -- try JS
+				JavascriptExecutor js = (JavascriptExecutor)DriverManager.GetActiveDriver();
+				js.executeScript("arguments[0].click()", listItem);
+				itemExist = true;
+				LogHandler.info("Tab item: [" + itemValue + "] found. Selecting... ");
+				break;
 			}
-			
-			if(!itemExist)
-				throw new Exception("Tab item: [" + itemValue + "] not found.");
-			
-			LogHandler.info("SelectTabItem() passed.");
 		}
-		catch(Exception e) 
-		{
-			LogHandler.error("SelectTabItem() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
-		}
+		
+		if(!itemExist)
+			throw new Exception("Tab item: [" + itemValue + "] not found.");
 	}
 }

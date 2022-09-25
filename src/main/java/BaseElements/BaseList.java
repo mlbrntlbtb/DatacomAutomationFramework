@@ -13,9 +13,9 @@ public class BaseList extends BaseElement
 	String listItems_XPath = ".//li[contains(@class,'menu-primary-option')] | .//li//button[@data-monitoring-label]";
 	
 	//Constructors
-	public BaseList(WebDriver driver, String elementName, String searchBy, String searchValue) 
+	public BaseList(String elementName, String searchBy, String searchValue) 
 	{
-		super(driver, elementName, searchBy, searchValue);
+		super(elementName, searchBy, searchValue);
 	}
 	
 	public BaseList(String elementName, WebElement existingElement)
@@ -89,29 +89,11 @@ public class BaseList extends BaseElement
 	//Keywords
 	public void SelectListItem(String itemValue) throws Exception 
 	{
-		try 
-		{
-			SelectItem(itemValue, false);
-			LogHandler.info("SelectListItem() passed.");
-		}
-		catch(Exception e) 
-		{
-			LogHandler.error("SelectListItem() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
-		}
+		SelectItem(itemValue, false);
 	}
 	
 	public void SelectPartialItemValue(String partialValue) throws Exception 
 	{
-		try 
-		{
-			SelectItem(partialValue, true);
-			LogHandler.info("SelectPartialItemValue() passed.");
-		}
-		catch(Exception e) 
-		{
-			LogHandler.error("SelectPartialItemValue() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
-		}
+		SelectItem(partialValue, true);
 	}
 }

@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import System.DriverManager;
 import Utilities.*;
 
 public class BaseElement 
@@ -20,23 +21,21 @@ public class BaseElement
 	public String SearchValue;
 	public int DefaultWaitTime;;
 	public boolean isExistingElement = false;
-	public WebDriver driver;
 	
 	//Constructor
-	public BaseElement(WebDriver driver, String elementName, String searchBy, String searchValue) 
+	public BaseElement(String elementName, String searchBy, String searchValue) 
 	{
 		this.ElementName = elementName;
 		this.SearchBy = searchBy;
 		this.SearchValue = searchValue;
-		this.DefaultWaitTime = 30;
-		this.driver = driver;
+		this.DefaultWaitTime = 10;
 	}
 	
 	public BaseElement(String elementName, WebElement existingElement) 
 	{
 		this.Element = existingElement;
 		this.ElementName = elementName;
-		this.DefaultWaitTime = 30;
+		this.DefaultWaitTime = 10;
 		isExistingElement = true;
 	}
 	
@@ -84,14 +83,13 @@ public class BaseElement
 		
 		try 
 		{
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(specifiedWaitTime));
+			WebDriverWait wait = new WebDriverWait(DriverManager.GetActiveDriver() , Duration.ofSeconds(specifiedWaitTime));
 			Element = wait.until(ExpectedConditions.visibilityOfElementLocated(ElementByLocator()));
 			LogHandler.info("Element [" + ElementName + "] found.");
 		}
 		catch(Exception e) 
 		{
-			LogHandler.error("Element [" + ElementName + "] could not be found.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
+			throw new Exception("Element [" + ElementName + "] could not be found.");
 		}
 	}
 	
@@ -104,7 +102,7 @@ public class BaseElement
 	{
 		try 
 		{
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(specifiedWaitTime));
+			WebDriverWait wait = new WebDriverWait(DriverManager.GetActiveDriver(), Duration.ofSeconds(specifiedWaitTime));
 			Element = wait.until(ExpectedConditions.visibilityOfElementLocated(ElementByLocator()));
 			LogHandler.info("Element [" + ElementName + "] found.");
 			return true;
@@ -125,9 +123,10 @@ public class BaseElement
 	{
 		try 
 		{
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(specifiedWaitTime));
+			WebDriverWait wait = new WebDriverWait(DriverManager.GetActiveDriver(), Duration.ofSeconds(specifiedWaitTime));
 			wait.ignoring(Exception.class);
-			return wait.until(ExpectedConditions.textToBePresentInElementValue(Element, textValue));
+			wait.until(ExpectedConditions.textToBePresentInElementValue(Element, textValue));
+			return true;
 		}
 		catch(Exception e) 
 		{
@@ -144,7 +143,7 @@ public class BaseElement
 		WebElement ChildElement = null;
 		try 
 		{
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(specifiedWaitTime));
+			WebDriverWait wait = new WebDriverWait(DriverManager.GetActiveDriver(), Duration.ofSeconds(specifiedWaitTime));
 			switch(childSearchBy.toLowerCase()) 
 			{
 				case "id":
@@ -186,8 +185,7 @@ public class BaseElement
 		}
 		catch(Exception e) 
 		{
-			LogHandler.error("Child element with locator value: [" + childLocatorValue + "] could not be found.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
+			throw new Exception("Child element with locator value: [" + childLocatorValue + "] could not be found.");
 		}
 		return ChildElement;
 	}
@@ -200,7 +198,7 @@ public class BaseElement
 		List<WebElement> ChildElements = null;
 		try 
 		{
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(specifiedWaitTime));
+			WebDriverWait wait = new WebDriverWait(DriverManager.GetActiveDriver(), Duration.ofSeconds(specifiedWaitTime));
 			switch(childSearchBy.toLowerCase()) 
 			{
 				case "id":
@@ -242,8 +240,7 @@ public class BaseElement
 		}
 		catch(Exception e) 
 		{
-			LogHandler.error("Child elements with locator value: [" + childLocatorValue + "] could not be found.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
+			throw new Exception("Child elements with locator value: [" + childLocatorValue + "] could not be found.");
 		}
 		return ChildElements;
 	}
@@ -288,89 +285,41 @@ public class BaseElement
 	//Keywords
 	public void WaitFindElement(String specifiedWaitTime) throws Exception 
 	{
-		try 
-		{
-			LogHandler.info("Waiting for element: [" + ElementName + "]... ");
-			FindElement(Integer.parseInt(specifiedWaitTime));
-			LogHandler.info("WaitForElement() passed.");
-		}
-		catch(Exception e) 
-		{
-			LogHandler.error("WaitForElement() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
-		}
+		LogHandler.info("Waiting for element: [" + ElementName + "]... ");
+		FindElement(Integer.parseInt(specifiedWaitTime));
 	}
 	
 	public void VerifyExist(String expectedValue) throws Exception 
 	{
-		try 
-		{
-			LogHandler.info("Verifying element: [" + ElementName + "] exists... ");
-			boolean actualValue = ElementExist();
-			Assert.assertEquals(actualValue, Boolean.parseBoolean(expectedValue));
-			LogHandler.info("VerifyExist() passed.");
-		}
-		catch(Exception e) 
-		{
-			LogHandler.error("VerifyExist() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
-		}
+		LogHandler.info("Verifying element: [" + ElementName + "] exists... ");
+		boolean actualValue = ElementExist();
+		Assert.assertEquals(actualValue, Boolean.parseBoolean(expectedValue));
 	}
 	
 	public void VerifyValue(String expectedValue) throws Exception 
 	{
-		try 
-		{
-			FindElement();
-			
-			String actualValue = GetValue();
-			LogHandler.info("Expected value: [" + expectedValue + "] Actual value: [" + actualValue + "]");
-			Assert.assertEquals(expectedValue, actualValue);
-			LogHandler.info("VerifyValue() passed.");
-		}
-		catch(Exception e) 
-		{
-			LogHandler.error("VerifyValue() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
-		}
+		FindElement();
+		String actualValue = GetValue();
+		LogHandler.info("Expected value: [" + expectedValue + "] Actual value: [" + actualValue + "]");
+		Assert.assertEquals(expectedValue, actualValue);
 	}
 	
 	public void VerifyPartialValue(String partialValue) throws Exception 
 	{
-		try 
-		{
-			FindElement();
-			
-			String actualValue = new BaseElement("Target Element",Element).GetValue();
-			boolean partialMatch = actualValue.contains(partialValue);
-			LogHandler.info("Expected value: [" + partialValue + "] Actual value: [" + actualValue + "]");
-			
-			if(!partialMatch)
-				throw new Exception("Expected value does not partially matched actual value.");
-			
-			LogHandler.info("VerifyPartialValue() passed.");
-		}
-		catch(Exception e) 
-		{
-			LogHandler.error("VerifyPartialValue() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
-		}
+		FindElement();
+		String actualValue = new BaseElement("Target Element",Element).GetValue();
+		boolean partialMatch = actualValue.contains(partialValue);
+		LogHandler.info("Expected value: [" + partialValue + "] Actual value: [" + actualValue + "]");
+		
+		if(!partialMatch)
+			throw new Exception("Expected value does not partially matched actual value.");
 	}
 	
 	public void AssignValueToVariable(String variableName) throws Exception 
 	{
-		try 
-		{
-			FindElement();
-			String actualValue = GetValue();
-			LogHandler.info("Assigned value: [" + actualValue + "] to Variable name: [" + variableName + "]");
-			VariableHandler.SetVariable(variableName, actualValue);
-			LogHandler.info("AssignValueToVariable() passed.");
-		}
-		catch(Exception e) 
-		{
-			LogHandler.error("AssignValueToVariable() failed.");
-			new ExceptionHandler(e.getClass().getSimpleName(), e);
-		}
+		FindElement();
+		String actualValue = GetValue();
+		LogHandler.info("Assigned value: [" + actualValue + "] to Variable name: [" + variableName + "]");
+		VariableHandler.SetVariable(variableName, actualValue);
 	}
 }

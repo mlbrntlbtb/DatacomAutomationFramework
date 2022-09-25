@@ -6,9 +6,9 @@ import org.openqa.selenium.WebElement;
 public class BaseAlert extends BaseElement
 {
 	//Constructors
-		public BaseAlert(WebDriver driver, String elementName, String searchBy, String searchValue) 
+		public BaseAlert(String elementName, String searchBy, String searchValue) 
 		{
-			super(driver, elementName, searchBy, searchValue);
+			super(elementName, searchBy, searchValue);
 		}
 		
 		public BaseAlert(String elementName, WebElement existingElement)

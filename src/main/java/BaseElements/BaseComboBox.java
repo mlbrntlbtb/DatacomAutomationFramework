@@ -13,9 +13,9 @@ public class BaseComboBox extends BaseElement
 		private static String comboBoxListItems_XPath = ".//div[@role='listbox']//a[@role='option']//span[@class='text']";
 	
 		//Constructors
-		public BaseComboBox(WebDriver driver, String elementName, String searchBy, String searchValue) 
+		public BaseComboBox(String elementName, String searchBy, String searchValue) 
 		{
-			super(driver, elementName, searchBy, searchValue);
+			super(elementName, searchBy, searchValue);
 		}
 		
 		public BaseComboBox(String elementName, WebElement existingElement)
@@ -64,36 +64,26 @@ public class BaseComboBox extends BaseElement
 		//Keywords
 		public void SetSelectValue(String value) throws Exception 
 		{
-			try 
+			Initialize();
+			WebElement inputField = GetInputField();
+			LogHandler.info("Setting value: [" + value + "] to input field... ");
+			inputField.clear();
+			inputField.sendKeys(value);
+			
+			List<WebElement> comboBoxItems = GetComboBoxListItems();
+			boolean itemFound = false;
+			for(WebElement comboBoxItem : comboBoxItems) 
 			{
-				Initialize();
-				WebElement inputField = GetInputField();
-				LogHandler.info("Setting value: [" + value + "] to input field... ");
-				inputField.clear();
-				inputField.sendKeys(value);
-				
-				List<WebElement> comboBoxItems = GetComboBoxListItems();
-				boolean itemFound = false;
-				for(WebElement comboBoxItem : comboBoxItems) 
+				String comboBoxItemValue = new BaseElement("ComboBox Item", comboBoxItem).GetValue();
+				if(comboBoxItemValue.equalsIgnoreCase(value)) 
 				{
-					String comboBoxItemValue = new BaseElement("ComboBox Item", comboBoxItem).GetValue();
-					if(comboBoxItemValue.equalsIgnoreCase(value)) 
-					{
-						comboBoxItem.click();
-						LogHandler.info("Selecting value: [" + value + "] to items list... ");
-						itemFound = true;
-						break;
-					}
+					comboBoxItem.click();
+					LogHandler.info("Selecting value: [" + value + "] to items list... ");
+					itemFound = true;
+					break;
 				}
-				if(!itemFound)
-					throw new Exception("Item with value: [" + value + "] not found.");
-				
-				LogHandler.info("SetSelectValue() passed.");
 			}
-			catch(Exception e) 
-			{
-				LogHandler.error("SetSelectValue() failed.");
-				new ExceptionHandler(e.getClass().getSimpleName(), e);
-			}
+			if(!itemFound)
+				throw new Exception("Item with value: [" + value + "] not found.");
 		}
 }

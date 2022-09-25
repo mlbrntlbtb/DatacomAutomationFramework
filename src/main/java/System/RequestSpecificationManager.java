@@ -17,6 +17,8 @@ public class RequestSpecificationManager
 	private static String authorization;
 	private static RequestSpecification requestSpecification;
 	private static Response response;
+	private static ThreadLocal<RequestSpecification> safeRequest = new ThreadLocal<RequestSpecification>();
+	private static ThreadLocal<Response> safeResponse = new ThreadLocal<Response>();
 	
 	@SuppressWarnings("serial")
 	private static final HashMap<String,ContentType> HTTPContentType = new HashMap<String,ContentType>()
@@ -30,30 +32,23 @@ public class RequestSpecificationManager
 	{
 		try 
 		{
-			LogHandler.info("Creating request... ");
 			baseURL = ConfigHandler.GetProperty("config","test.api.url");
 			contentFormat = ConfigHandler.GetProperty("config","content.type");
 			authorization = ConfigHandler.GetProperty("config","auth.key");
 			
-			LogHandler.info("Setting base URL: [" + baseURL + "]... ");
 			RestAssured.baseURI = baseURL;
 			requestSpecification = RestAssured.given();
 			
 			if(contentFormat != null) 
-			{
-				LogHandler.info("Setting content type: [" + contentFormat + "]... ");
 				requestSpecification.contentType(HTTPContentType.get(contentFormat));
-			}
 			
 			if(authorization != null) 
-			{
-				LogHandler.info("Setting authorization: [" + authorization + "]... ");
 				requestSpecification.header("Authorization", authorization);
-			}
+			
+			safeRequest.set(requestSpecification);
 		}
 		catch(Exception e) 
 		{
-			LogHandler.error("VerifyResponseCode() failed.");
 			new ExceptionHandler(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -83,15 +78,26 @@ public class RequestSpecificationManager
 			default:
 				throw new Exception("Request type not supported: [" + requestType + "]. Supported request types: [get|post|put|delete|options]");
 		}
+		safeResponse.set(response);
 	}
 	
 	public static RequestSpecification GetRequest() 
 	{
-		return requestSpecification;
+		return safeRequest.get();
 	}
 	
 	public static Response GetResponse() 
 	{
-		return response;
+		return safeResponse.get();
+	}
+	
+	public static boolean RequestExist() 
+	{
+		return safeRequest.get() != null;
+	}
+	
+	public static String GetBaseURL() 
+	{
+		return baseURL;
 	}
 }

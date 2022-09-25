@@ -3,6 +3,7 @@ package System;
 import java.net.URL;
 import java.time.Duration;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -12,17 +13,17 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import Utilities.ConfigHandler;
 import Utilities.ExceptionHandler;
-import Utilities.LogHandler;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverManager 
 {
 	private static WebDriver driver;
-	public static WebDriver Initialize(String browserName) throws Exception
+	private static ThreadLocal<WebDriver> safeDriver = new ThreadLocal<WebDriver>();
+	private static String applicationURL;
+	public static void Initialize(String browserName) throws Exception
 	{
 		try 
 		{
-			LogHandler.info("Creating browser instance: [" + browserName + "]");
 			String remoteHost = ConfigHandler.GetProperty("config","remote.host");
 			
 			switch(browserName.toLowerCase()) 
@@ -51,36 +52,28 @@ public class DriverManager
 				default:
 					throw new Exception("Browser: [" + browserName + "] does not exist.");
 			}
-			
-			//Get browser name and version
-			Capabilities capabilities = ((RemoteWebDriver)driver).getCapabilities();
-			String browserType = capabilities.getBrowserName();
-			String browserVersion = capabilities.getBrowserVersion();
-			
-			LogHandler.info("Browser: [" + browserType + "] with Version: [" + browserVersion + "] created.");
+			safeDriver.set(driver);
 		}
 		catch(Exception e) 
 		{
 			new ExceptionHandler(e.getClass().getSimpleName(), e);
 		}
-		return driver;
 	}
 	
 	public static WebDriver GetActiveDriver() 
 	{
-		return driver;
+		return safeDriver.get();
 	}
 	
-	public static void LoadApplication(WebDriver driver, String url) throws Exception
+	public static void LoadApplication(String url) throws Exception
 	{
-		if(driver != null) 
+		if(safeDriver.get() != null) 
 		{
-			LogHandler.info("Loading target application: [" + url + "]... ");
-			driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
-			driver.manage().window().maximize();
-			driver.navigate().to(url);
-			driver.get(url);
-			WaitApplicationReady(driver);
+			applicationURL = url;
+			safeDriver.get().manage().window().maximize();
+			safeDriver.get().get(url);
+			safeDriver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
+			WaitApplicationReady(safeDriver.get());
 		}
 	}
 	
@@ -95,27 +88,55 @@ public class DriverManager
 				&& (!jse.executeScript("return window.jQuery != undefined && jQuery.active==0").equals("true"))) 
 		{
 			Thread.sleep(1000);
-			LogHandler.info("Waiting for the application to load... ");
 			wait++;
 		}
 	}
 	
-	public static void Close(WebDriver driver) throws Exception 
+	public static void Close() throws Exception 
 	{
-		if (driver != null) 
+		if (safeDriver.get() != null) 
 		{
-			LogHandler.info("Closing browser... ");
-			driver.close();
+			safeDriver.get().close();
 		}
 	}
 	
-	public static void Quit(WebDriver driver) throws Exception 
+	public static void Quit() throws Exception 
 	{
-		if (driver != null) 
+		if (safeDriver.get() != null) 
 		{
-			LogHandler.info("Terminating browser instance... ");
-			driver.quit();
-			driver = null;
+			safeDriver.get().quit();
 		}
+	}
+	
+	public static boolean DriverExist() 
+	{
+		return safeDriver.get() != null;
+	}
+	
+	public static String BrowserName() throws Exception 
+	{
+		if(safeDriver.get() != null) 
+		{
+			Capabilities capabilities = ((RemoteWebDriver)safeDriver.get()).getCapabilities();
+			String browserName = StringUtils.capitalize(capabilities.getBrowserName());
+			return browserName;
+		}
+		return null;
+	}
+	
+	public static String BrowserVersion() throws Exception 
+	{
+		if(safeDriver.get() != null) 
+		{
+			Capabilities capabilities = ((RemoteWebDriver)safeDriver.get()).getCapabilities();
+			String browserVersion = capabilities.getBrowserVersion();
+			return browserVersion;
+		}
+		return null;
+	}
+	
+	public static String ApplicationUrl() throws Exception 
+	{
+		return applicationURL;
 	}
 }
